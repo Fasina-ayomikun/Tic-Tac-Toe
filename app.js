@@ -19,7 +19,9 @@ const winningArray = [
 const startGame = () => {
   boxes.forEach((box) => {
     currentPlayer = X_CLASS;
-    playerTurn.textContent = `Player ${currentPlayer === "X" ? "X" : "O"} turn`;
+    playerTurn.textContent = `Player ${
+      currentPlayer === "X" ? "X" : "O"
+    }'s turn`;
     model.classList.remove("show");
     box.classList.remove(X_CLASS);
     box.classList.remove(O_CLASS);
@@ -38,7 +40,7 @@ const handleClick = (e) => {
   }
   currentPlayer = currentPlayer === "X" ? O_CLASS : X_CLASS;
 
-  playerTurn.textContent = `Player ${currentPlayer === "X" ? "X" : "O"} turn`;
+  playerTurn.textContent = `Player ${currentPlayer === "X" ? "X" : "O"}'s turn`;
 };
 restartBtn.addEventListener("click", startGame);
 startGame();
