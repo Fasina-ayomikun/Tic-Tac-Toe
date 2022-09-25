@@ -170,6 +170,7 @@ button {
   }
   .container .O::before {
     height: 80px;
+    width: 80px;
   }
   .container .O::after {
     width: 40px;
