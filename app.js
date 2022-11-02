@@ -3,9 +3,9 @@ const restartBtn = document.querySelector(".restart-btn");
 const winningText = document.querySelector(".winning-text");
 const model = document.querySelector(".model");
 const playerTurn = document.querySelector(".player-turn");
-let currentPlayer = "X";
-const X_CLASS = "X";
-const O_CLASS = "O";
+const CLASS_X = "X";
+const CLASS_O = "O";
+let currentPlayer = CLASS_X;
 const winningArray = [
   [0, 1, 2],
   [3, 4, 5],
@@ -18,13 +18,13 @@ const winningArray = [
 ];
 const startGame = () => {
   boxes.forEach((box) => {
-    currentPlayer = X_CLASS;
+    currentPlayer = CLASS_X;
     playerTurn.textContent = `Player ${
       currentPlayer === "X" ? "X" : "O"
     }'s turn`;
     model.classList.remove("show");
-    box.classList.remove(X_CLASS);
-    box.classList.remove(O_CLASS);
+    box.classList.remove(CLASS_X);
+    box.classList.remove(CLASS_O);
     winningText.textContent = "";
     box.removeEventListener("click", handleClick);
     box.addEventListener("click", handleClick, { once: true });
@@ -33,12 +33,12 @@ const startGame = () => {
 const handleClick = (e) => {
   e.target.classList.add(currentPlayer);
 
-  if (checkForWinner(currentPlayer)) {
+  if (checkForWinner()) {
     isWinner(true);
   } else if (checkDraw()) {
     isWinner(false);
   }
-  currentPlayer = currentPlayer === "X" ? O_CLASS : X_CLASS;
+  currentPlayer = currentPlayer === "X" ? CLASS_O : CLASS_X;
 
   playerTurn.textContent = `Player ${currentPlayer === "X" ? "X" : "O"}'s turn`;
 };
@@ -53,14 +53,23 @@ function isWinner(win) {
   }
 }
 function checkDraw() {
-  return [...boxes].every((box) => {
-    return box.classList.contains(X_CLASS) || box.classList.contains(O_CLASS);
+  let boxesArray = Array.from(boxes);
+  return boxesArray.every((box) => {
+    if (box.classList.contains(CLASS_X) || box.classList.contains(CLASS_O)) {
+      return box;
+    }
+    return;
   });
 }
-function checkForWinner(currentPlayer) {
-  return winningArray.some((arr) => {
-    return arr.every((item) => {
-      return boxes[item].classList.contains(currentPlayer);
+function checkForWinner() {
+  let checkWinner = winningArray.some((arr) => {
+    const checkWin = arr.every((index) => {
+      if (boxes[index].classList.contains(currentPlayer)) {
+        return boxes[index];
+      }
+      return;
     });
+    return checkWin;
   });
+  return checkWinner;
 }
